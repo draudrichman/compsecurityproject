@@ -20,8 +20,10 @@ interface ListingCardProps {
   data: SafeListing;
   reservation?: SafeReservation;
   onAction?: (id: string) => void;
+  onSecondaryAction?: (id: string) => void;
   disabled?: boolean;
   actionLabel?: string;
+  secondaryActionLabel?: string;
   actionId?: string;
   currentUser?: SafeUser | null
 };
@@ -30,8 +32,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
   data,
   reservation,
   onAction,
+  onSecondaryAction,
   disabled,
   actionLabel,
+  secondaryActionLabel,
   actionId = '',
   currentUser,
 }) => {
@@ -50,6 +54,13 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
     onAction?.(actionId)
   }, [disabled, onAction, actionId]);
+  
+  const handleStatClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+  
+    router.push(`/statistics/${data.id}`);
+  }, [data.id, router]);
 
   const price = useMemo(() => {
     if (reservation) {
@@ -69,6 +80,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
     return `${format(start, 'PP')} - ${format(end, 'PP')}`;
   }, [reservation]);
+
 
   return (
     <div 
@@ -112,9 +124,18 @@ const ListingCard: React.FC<ListingCardProps> = ({
             onClick={handleCancel}
           />
         )}
+        {secondaryActionLabel && (
+          <Button
+            outline
+            disabled={disabled}
+            small
+            label={secondaryActionLabel} 
+            onClick={handleStatClick}
+          />
+        )}
       </div>
     </div>
    );
-}
+} 
  
 export default ListingCard;
