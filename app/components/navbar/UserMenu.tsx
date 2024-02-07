@@ -67,39 +67,48 @@ const UserMenu: React.FC<UserMenuProps> = ({
               <>
                 <MenuItem 
                   label="My trips" 
-                  onClick={() => router.push('/trips')}
+                  onClick={() => {router.push('/trips'); toggleOpen()}}
                 />
                 <MenuItem 
                   label="My favorites" 
-                  onClick={() => router.push('/favorites')}
+                  onClick={() => {router.push('/favorites'); toggleOpen()}}
                 />
                 <MenuItem 
                   label="My reservations" 
-                  onClick={() => router.push('/reservations')}
+                  onClick={() => {router.push('/reservations'); toggleOpen()}}
                 />
                 <MenuItem 
                   label="My properties" 
-                  onClick={() => router.push('/properties')}
+                  onClick={() => {router.push('/properties'); toggleOpen()}}
                 />
                 <MenuItem 
                   label="Airbnb your home" 
-                  onClick={rentModal.onOpen}
+                  onClick={() => {
+                    rentModal.onOpen();
+                    toggleOpen(); // Close the menu
+                  }}
                 />
                 <hr />
                 <MenuItem 
                   label="Logout" 
-                  onClick={() => signOut()}
+                  onClick={() => {signOut(); toggleOpen()}}
                 />
               </>
             ) : (
               <>
                 <MenuItem 
                   label="Login" 
-                  onClick={loginModal.onOpen}
+                  onClick={() => {
+                    loginModal.onOpen();
+                    toggleOpen(); // Close the menu
+                  }}
                 />
                 <MenuItem 
                   label="Sign up" 
-                  onClick={registerModal.onOpen}
+                  onClick={() => {
+                    registerModal.onOpen();
+                    toggleOpen(); // Close the menu
+                  }}
                 />
               </>
             )}
