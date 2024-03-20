@@ -32,7 +32,7 @@ const LoginModal = () => {
 
   async function handleCaptchaSubmission(token: string | null) {
     try {
-      const response = await axios.post('/api/verify-captcha', { token }); // Send token to server-side API route
+      const response = await axios.post('/api/verify-captcha', { token });// Send token to server-side API route
       if (response.data.success) {
         setIsCaptchaVerified(true);
       } else {
@@ -113,7 +113,7 @@ const LoginModal = () => {
         errors={errors}
         required
       />
-      <ReCAPTCHA 
+      <ReCAPTCHA
         sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!} className="mx-auto"
         ref={recaptchaRef}
         onChange={handleCaptchaSubmission}
@@ -137,7 +137,7 @@ const LoginModal = () => {
         onClick={() => signIn('github')}
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
-        <p>First time using Airbnb?
+        <p>First time using Roam?
           <span
             onClick={onToggle}
             className="text-neutral-800 cursor-pointer hover:underline"

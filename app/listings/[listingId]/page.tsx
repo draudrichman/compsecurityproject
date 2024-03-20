@@ -7,6 +7,7 @@ import ClientOnly from "@/app/components/ClientOnly";
 import EmptyState from "@/app/components/EmptyState";
 
 import ListingClient from "./ListingClient";
+import OtpModal from "@/app/components/modals/OtpModal";
 
 interface IParams {
   listingId?: string;
@@ -33,6 +34,7 @@ const ListingPage = async ({ params }: { params: IParams }) => {
         reservations={reservations}
         currentUser={currentUser}
       />
+      <OtpModal />
     </ClientOnly>
   );
 }

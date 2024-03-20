@@ -4,6 +4,7 @@ import { Range } from "react-date-range";
 
 import Button from "../Button";
 import Calendar from "../inputs/Calendar";
+import useOtpModal from "@/app/hooks/useOtpModal";
 
 interface ListingReservationProps {
   price: number;
@@ -15,9 +16,7 @@ interface ListingReservationProps {
   disabledDates: Date[];
 }
 
-const ListingReservation: React.FC<
-  ListingReservationProps
-> = ({
+const ListingReservation: React.FC<ListingReservationProps> = ({
   price,
   dateRange,
   totalPrice,
@@ -26,8 +25,33 @@ const ListingReservation: React.FC<
   disabled,
   disabledDates
 }) => {
-  return ( 
-    <div 
+  const handleSendEmail = async () => {
+    try {
+      const response = await fetch('/api/sendEmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: 'dris.justarandommail@gmail.com',
+          subject: 'Test Email',
+          text: 'This is a test email sent from Next.js with Nodemailer!',
+        }),
+      });
+  
+      if (response.ok) {
+        console.log('Email sent successfully!');
+      } else {
+        console.error('Error:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const otpModal = useOtpModal();
+  return (
+    <div
       className="bg-white rounded-xl border-[1px] border-neutral-200 overflow-hidden">
       <div className="
       flex flex-row items-center gap-1 p-4">
@@ -42,19 +66,24 @@ const ListingReservation: React.FC<
       <Calendar
         value={dateRange}
         disabledDates={disabledDates}
-        onChange={(value) => 
+        onChange={(value) =>
           onChangeDate(value.selection)}
       />
       <hr />
       <div className="p-4">
-        <Button 
-          disabled={disabled} 
-          label="Reserve" 
+        <Button
+          disabled={disabled}
+          label="Reserve"
           onClick={onSubmit}
+        />
+        <Button
+          label="Verify"
+          // onClick={() => {otpModal.onOpen()}}
+          onClick={handleSendEmail}
         />
       </div>
       <hr />
-      <div 
+      <div
         className="p-4 flex flex-row items-center justify-between font-semibold text-lg">
         <div>
           Total
@@ -64,7 +93,7 @@ const ListingReservation: React.FC<
         </div>
       </div>
     </div>
-   );
+  );
 }
- 
+
 export default ListingReservation;
